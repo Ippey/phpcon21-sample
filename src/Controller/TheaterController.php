@@ -32,4 +32,13 @@ class TheaterController extends AbstractController
 
         return $this->json(['user' => $user]);
     }
+
+    #[ParamConverter('theater', class: Theater::class, options: ['id' => 'id'])]
+    #[Route('/theater/{id}/user', name: 'theater_user_list')]
+    public function users(Theater $theater): Response
+    {
+        $users = $this->management->getActivatedUsers($theater);
+
+        return $this->json(['users' => $users]);
+    }
 }
