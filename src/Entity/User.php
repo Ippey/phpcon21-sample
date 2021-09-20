@@ -47,6 +47,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActivated;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -156,6 +161,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getIsActivated(): ?bool
+    {
+        return $this->isActivated;
+    }
+
+    public function setIsActivated(bool $isActivated): self
+    {
+        $this->isActivated = $isActivated;
 
         return $this;
     }

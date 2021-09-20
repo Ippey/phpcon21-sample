@@ -26,6 +26,7 @@ class TheaterManagement
             ->setName($name)
             ->setEmail($email)
             ->setPassword($this->passwordHasher->hashPassword($user, $password))
+            ->setIsActivated(true)
             ;
         $theater->addUser($user);
 
