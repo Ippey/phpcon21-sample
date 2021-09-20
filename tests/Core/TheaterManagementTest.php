@@ -4,7 +4,6 @@ namespace App\Tests\Core;
 
 use App\Core\TheaterManagement;
 use App\Core\TheaterManagementDataServiceInterface;
-use App\Core\TheaterRoomRepositoryInterface;
 use App\Entity\Theater;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
@@ -22,9 +21,9 @@ class TheaterManagementTest extends TestCase
             new User(),
         ];
         $passwordHasher = $this->createMock(UserPasswordHasher::class);
-        $theaterRoomRepository = $this->createMock(TheaterRoomRepositoryInterface::class);
+        $theaterRoomRepository = $this->createMock(TheaterManagementDataServiceInterface::class);
         $theaterRoomRepository
-            ->method('findBy')
+            ->method('findActivatedUsers')
             ->willReturn($users)
         ;
 

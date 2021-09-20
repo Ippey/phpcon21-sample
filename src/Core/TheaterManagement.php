@@ -10,16 +10,13 @@ class TheaterManagement
 {
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
-        private TheaterRoomRepositoryInterface $theaterRoomRepository
+        private TheaterManagementDataServiceInterface $dataService
     ) {
     }
 
     public function getActivatedUsers(Theater $theater): array
     {
-        return $this->theaterRoomRepository->findBy([
-            'theater' => $theater,
-            'isActivated' => true,
-        ]);
+        return $this->dataService->findActivatedUsers($theater);
     }
 
     public function createUser(Theater $theater, $name, $email, $password): User
