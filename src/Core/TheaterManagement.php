@@ -9,8 +9,17 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class TheaterManagement
 {
     public function __construct(
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private TheaterRoomRepositoryInterface $theaterRoomRepository
     ) {
+    }
+
+    public function getActivatedUsers(Theater $theater): array
+    {
+        return $this->theaterRoomRepository->findBy([
+            'theater' => $theater,
+            'isActivated' => true,
+        ]);
     }
 
     public function createUser(Theater $theater, $name, $email, $password): User
