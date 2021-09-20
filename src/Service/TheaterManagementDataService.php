@@ -12,8 +12,7 @@ class TheaterManagementDataService implements TheaterManagementDataServiceInterf
     public function __construct(
         private UserRepository $userRepository,
         private TheaterRoomRepository $theaterRoomRepository
-    )
-    {
+    ) {
     }
 
     public function findActivatedUsers(Theater $theater): array

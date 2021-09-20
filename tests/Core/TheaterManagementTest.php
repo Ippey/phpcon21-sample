@@ -21,13 +21,13 @@ class TheaterManagementTest extends TestCase
             new User(),
         ];
         $passwordHasher = $this->createMock(UserPasswordHasher::class);
-        $theaterRoomRepository = $this->createMock(TheaterManagementDataServiceInterface::class);
-        $theaterRoomRepository
+        $dataService = $this->createMock(TheaterManagementDataServiceInterface::class);
+        $dataService
             ->method('findActivatedUsers')
             ->willReturn($users)
         ;
 
-        $management = new TheaterManagement($passwordHasher, $theaterRoomRepository);
+        $management = new TheaterManagement($passwordHasher, $dataService);
         $result = $management->getActivatedUsers(new Theater());
         $this->assertEquals($users, $result);
     }
@@ -38,6 +38,7 @@ class TheaterManagementTest extends TestCase
     public function createUser(): void
     {
         $passwordHasher = $this->createMock(UserPasswordHasher::class);
+        $dataService = $this->createMock(TheaterManagementDataServiceInterface::class);
         $passwordHasher->method('hashPassword')
             ->willReturnCallback(function ($user, $password) {
                 return $password.'_hashed';
@@ -49,13 +50,14 @@ class TheaterManagementTest extends TestCase
         $email = 'test@phpcon.php.gr.jp';
         $password = 'strong_password';
 
-        $management = new TheaterManagement($passwordHasher);
+        $management = new TheaterManagement($passwordHasher, $dataService);
         $user = $management->createUser($theater, $name, $email, $password);
 
         $this->assertEquals($name, $user->getName());
         $this->assertEquals($email, $user->getEmail());
         $this->assertEquals($password.'_hashed', $user->getPassword());
         $this->assertSame($theater, $user->getTheater());
+        $this->assertEquals(['ROLE_USER'], $user->getRoles());
         $this->assertContains($user, $theater->getUsers());
     }
 }
